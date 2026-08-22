@@ -20,7 +20,7 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'RescuePro Contact Form <mareedubhargav1717@gmail.com>',
+        from: 'RescuePro Contact Form <no-reply@rescuepoo.com>',
         // ↑ Use this default sender until you verify your own domain in Resend
         to: ['mareedubhargav1717@gmail.com'],
         // ↑ REPLACE with the email address where YOU want to receive leads
