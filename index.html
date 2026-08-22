@@ -250,6 +250,45 @@ footer {
 .review-location { font-size:12px; color:var(--gray); margin-top:2px; }
 
 </style>
+<script>
+  async function handleSubmit() {
+  const phone = document.getElementById('phone').value.trim();
+  const name = document.getElementById('name') ? document.getElementById('name').value.trim() : '';
+  const email = document.getElementById('email') ? document.getElementById('email').value.trim() : '';
+  const service = document.getElementById('service') ? document.getElementById('service').value : '';
+  const message = document.getElementById('message') ? document.getElementById('message').value.trim() : '';
+
+  if (!phone) {
+    alert('Please enter your phone number so we can call you back!');
+    return;
+  }
+
+  const btn = document.querySelector('.form-submit');
+  btn.textContent = 'Sending…';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch('/api/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, phone, email, service, message }),
+    });
+
+    if (res.ok) {
+      btn.textContent = '✓ Request Sent! We\'ll call you shortly.';
+      btn.style.background = '#1a6e35';
+    } else {
+      btn.textContent = 'Send Request →';
+      btn.disabled = false;
+      alert('Something went wrong. Please try again or call us directly.');
+    }
+  } catch (err) {
+    btn.textContent = 'Send Request →';
+    btn.disabled = false;
+    alert('Network error. Please try again or call us directly.');
+  }
+}
+</script>
 </head>
 
 <body>
@@ -439,7 +478,7 @@ footer {
       <p>Available for mobile RV dump service, tank cleaning, recurring maintenance, power jetting, and hydro jetting.</p>
     </div>
 
-    <form action="https://formsubmit.co/mobilervdump@gmail.com" method="POST">
+    <form action="handleSubmit" method="POST">
       <input type="hidden" name="_subject" value="New RescuePro Website Service Request">
       <input type="hidden" name="_captcha" value="false">
       <input type="hidden" name="_template" value="table">
